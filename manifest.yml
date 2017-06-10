@@ -3,6 +3,6 @@ applications:
   memory: 256M
   instances: 1
   domain: mybluemix.net
-  name: projet-name
-  host: projet-name
+  name: chat-bot-facebook
+  host: chat-bot-facebook
   disk_quota: 1024M
