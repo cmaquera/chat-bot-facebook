@@ -6,11 +6,13 @@
 		"start": "node app.js"
 	},
 	"dependencies": {
-		"express": "4.13.x",
-		"cfenv": "1.0.x"
+		"body-parser": "^1.17.1",
+		"express": "^4.15.2",
+		"request": "^2.81.0",
+		"watson-developer-cloud": "^2.32.1"
 	},
 	"repository": {},
 	"engines": {
-		"node": "4.x"
+		"node": "6.x"
 	} 
 }
