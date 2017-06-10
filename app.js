@@ -111,7 +111,7 @@ function receivedMessage(event) {
         break;
 
       default: {
-        Message(messageId);
+        Message(senderID, messageText);
       }
     }
   } else if (messageAttachments) {
@@ -119,7 +119,7 @@ function receivedMessage(event) {
   }
 }
 
-function Message(data){
+function Message(senderID, data){
   conversation.message({
     workspace_id: 'edd8747e-9441-4808-8793-b4f9dec77095',
     input: {'text': data},
@@ -127,9 +127,10 @@ function Message(data){
   },  function(err, response) {
     if (err)
       console.log('error:', err);
-    else
+    else{
       console.log(JSON.stringify(response, null, 2));
       sendTextMessage(senderID, JSON.stringify(response, null, 2));
+    }
   });
 }
 
