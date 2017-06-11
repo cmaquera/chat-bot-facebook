@@ -1,3 +1,4 @@
+'use strict'
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
@@ -10,9 +11,13 @@ var contexts = [];
 
 const token = process.env.FB_VERIFY_TOKEN;
 const access = process.env.FB_ACCESS_TOKEN;
+//const access = 'EAAaZCDsqh7uEBAIveArQUlijgzLnqZCDbVVdm37OI0ejsPjolbcigEmc62oFZClsfTk3dZCNOCBsPZCU76qLWYeAkH1mnJ24MQjZCmolOi7aQQ79CWYRRqZAxuVXFtnrielweI35lou97QEphqfsJoxtm0hVMKSvczt4DpxBESIGwZDZD';
+//const token = 'comida';
+
 
 const server = app.listen(process.env.PORT || 5000, () => {
-  console.log('Express server listening on port %d in %s mode', server.address().port, app.settings.env);
+  console.log('Express server listening on localhost port %d in %s mode', server.address().port, app.settings.env);
+  console.log(process.env.FB_ACCESS_TOKEN);
 });
 
 /* Para la validadacoin de facebook */
@@ -23,7 +28,6 @@ app.get('/webhook', (req, res) => {
     res.status(403).end();
   }
 });
-
 /* Para el manejo de los mensajes */
 app.post('/webhook', (req, res) => {
   console.log(req.body);
@@ -53,7 +57,7 @@ function getWatson(event){
       context =  value.context;
       contextIndex = index;
     }
-    index++;
+    index= index + 1;
   });
   
   console.log('Mensaje recivido desde ' + number + ' diciendo ' + message + '');
