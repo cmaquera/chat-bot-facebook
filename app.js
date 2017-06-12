@@ -9,33 +9,47 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 var contexts = [];
 
-const token = process.env.FB_VERIFY_TOKEN;
-const access = process.env.FB_ACCESS_TOKEN;
-//const access = 'EAAaZCDsqh7uEBAIveArQUlijgzLnqZCDbVVdm37OI0ejsPjolbcigEmc62oFZClsfTk3dZCNOCBsPZCU76qLWYeAkH1mnJ24MQjZCmolOi7aQQ79CWYRRqZAxuVXFtnrielweI35lou97QEphqfsJoxtm0hVMKSvczt4DpxBESIGwZDZD';
-//const token = 'comida';
+//const token = process.env.FB_VERIFY_TOKEN;
+//const access = process.env.FB_ACCESS_TOKEN;
+const access = 'EAAaZCDsqh7uEBAIveArQUlijgzLnqZCDbVVdm37OI0ejsPjolbcigEmc62oFZClsfTk3dZCNOCBsPZCU76qLWYeAkH1mnJ24MQjZCmolOi7aQQ79CWYRRqZAxuVXFtnrielweI35lou97QEphqfsJoxtm0hVMKSvczt4DpxBESIGwZDZD';
+const token = 'comida';
 
 
 const server = app.listen(process.env.PORT || 5000, () => {
   console.log('Express server listening on localhost port %d in %s mode', server.address().port, app.settings.env);
-  console.log(process.env.FB_ACCESS_TOKEN);
 });
 
 /* Para la validadacoin de facebook */
-app.get('/webhook', (req, res) => {
-  if (req.query['hub.mode'] && req.query['hub.verify_token'] === 'tuxedo_cat') {
+/*app.get('/webhook', (req, res) => {
+  if (req.query['hub.mode'] && req.query['hub.verify_token'] === token) {
     res.status(200).send(req.query['hub.challenge']);
   } else {
     res.status(403).end();
   }
+});*/
+
+app.get('/webhook', function(req, res) {
+  if (req.query['hub.mode'] === 'subscribe' &&
+      req.query['hub.verify_token'] === token) {
+    console.log("Validating webhook");
+    res.status(200).send(req.query['hub.challenge']);
+  } else {
+    console.error("Failed validation. Make sure the validation tokens match.");
+    res.sendStatus(403);          
+  }  
 });
+
+
 /* Para el manejo de los mensajes */
 app.post('/webhook', (req, res) => {
-  console.log(req.body);
+  console.log('body info: ' + req.body);
   if (req.body.object === 'page') {
     req.body.entry.forEach((entry) => {
       entry.messaging.forEach((event) => {
         if (event.message && event.message.text) {
           getWatson(event);
+        } else {
+          console.log("Webhook received unknown event: ", event);
         }
       });
     });
@@ -68,12 +82,12 @@ function getWatson(event){
     version_date: ConversationV1.VERSION_DATE_2017_04_21
   });
   
-  console.log(JSON.stringify(context));
-  console.log(contexts.length);
+  console.log('Mensaje JSON : ' + JSON.stringify(context));
+  console.log('contextos canitidad :' + contexts.length);
   
   conversation.message({
     input: { text: message },
-    workspace_id: 'dc5c4ab9-f699-4590-8bdf-b5ca1a15cc9a'
+    workspace_id: 'e19740a6-0b95-407f-a331-943cf4eafdf7'
   }, function(err, response) {
       if (err) {
         console.error(err);
@@ -86,7 +100,7 @@ function getWatson(event){
         }
         
         var intent = response.intents[0].intent;
-        console.log(intent);
+        console.log("Intento : " + intent);
         if(intent == "done"){
           contexts.splice(contextIndex, 1);
         }
