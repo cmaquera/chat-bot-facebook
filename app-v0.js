@@ -61,8 +61,8 @@ function getWatson(event){
   console.log('Mensaje recibido desde ' + number + ' diciendo ' + message + '');
   
   var conversation = new ConversationV1({
-    username: '635a667c-eb5f-4840-9c25-d1e47efb07fb',
-    password: 'HDQ6cYCmtXMr',
+    username: 'b18b1f19-a42a-4bb0-b3bf-681c87f2da0a',
+    password: 'HtKEFQLsrsIg',
     version_date: ConversationV1.VERSION_DATE_2017_04_21
   });
   
@@ -71,7 +71,7 @@ function getWatson(event){
   
   conversation.message({
     input: { text: message },
-    workspace_id: 'edd8747e-9441-4808-8793-b4f9dec77095',
+    workspace_id: 'e19740a6-0b95-407f-a331-943cf4eafdf7',
     context: context
   }, function(err, response) {
       if (err) {
